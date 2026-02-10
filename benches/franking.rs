@@ -3,6 +3,7 @@ use amaze::amf::{
     AMFRole,
 };
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use rand::distributions::{Alphanumeric, DistString};
 
 fn criterion_benchmark(c: &mut Criterion) {
     let mut group = c.benchmark_group("amf");
@@ -16,7 +17,9 @@ fn criterion_benchmark(c: &mut Criterion) {
     let (judge_public_key, judge_secret_key) = keygen(AMFRole::Judge);
 
     // 3. Initialize a message
-    let message = b"hello world!";
+    let msg_size = 100;
+    let msg_string = Alphanumeric.sample_string(&mut rand::thread_rng(), msg_size);
+    let message = msg_string.as_bytes();
 
     // 4. Frank the message
     let amf_signature = frank(
