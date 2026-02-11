@@ -1,6 +1,12 @@
 # Amaze Compressed
 
-This repository is a fork off of the `amaze` Rust implementation of AMF used to create benchmarks that are more comparable to other implementation. It makes the following modifications to the original repository:
+This repository is a fork off of the `amaze` Rust implementation of AMF used to create benchmarks that are more comparable to other implementation. The benchmarks that use the compressed version of the signature can be run using the following command:
+
+```bash
+cargo bench --bench compressed_franking
+```
+
+It makes the following modifications to the original repository:
 
 - Compress all `RistrettoPoint`s to their 32-byte `CompressedRistretto` representation
 - Generate a random string for messages based on an input message length.
@@ -12,3 +18,14 @@ The second modification makes benchmarking with a specific message byte size sim
 Note that the original implementation does contain a `codec` file for serialized versions of the signature. However, the serialization is a bit convoluted as it assumes Scalars/Ristrettos cannot be represented as bytes. This is not case. Scalars have a built in `as_bytes` method, and Ristrettos can be converted to `CompressedRistretto`s, which in turn has a built in `as_bytes` method.
 
 See the original repository for more information about their implementation: https://github.com/initsecret/amaze.
+
+## Benchmarks
+
+Below are the compressed vs. uncompressed benchmarks for comparison. Both were run on a machine with an 11th Gen Intel i7 processor @ 3.6 GHz.
+
+| Algorithm   | Uncompressed | Compressed |
+| :---------- | :----------- | :--------- |
+| `keygen`    | 19.25 us     | 21.08 us   |
+| `franking`  | 228.89 us    | 257.61 us  |
+| `verifying` | 228.87 us    | 258.35 us  |
+| `judging`   | 228.86 us    | 258.38 us  |
