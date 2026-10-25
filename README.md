@@ -19,6 +19,12 @@ Note that the original implementation does contain a `codec` file for serialized
 
 See the original repository for more information about their implementation: https://github.com/initsecret/amaze.
 
+## Requirements
+
+- [Rust](https://www.rust-lang.org/tools/install) 1.85 or newer, including Cargo.
+
+The minimum supported Rust version is 1.85.0. Dependencies are resolved by Cargo from `Cargo.toml`.
+
 ## Benchmarks
 
 Below are the compressed vs. uncompressed benchmarks for comparison. Both were run on a machine with an 11th Gen Intel i7 processor @ 3.6 GHz.
